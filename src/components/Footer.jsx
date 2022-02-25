@@ -2,7 +2,10 @@ import React from "react";
 import { ReportProblem } from "../service/MilanApi";
 import "../styles/Footer.css";
 
-const Footer = () => {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Footer = (props) => {
 	const [reportModal, setReportModal] = React.useState(false);
 	const [reportEmail, setReportEmail] = React.useState("");
 	const [reportFirstName, setReportFirstName] = React.useState("");
@@ -18,27 +21,40 @@ const Footer = () => {
 
 	const handleReportSubmit = async (e) => {
 		e.preventDefault();
-		if (reportFirstName==="" || reportLastName==="" || reportEmail==="" || reportIssue==="") {
-			alert("Please fill out all fields");
+		if (props.isLoggedIn===false) {
+			toast.error("Please login to report an issue");
 			return;
 		}
-		const res = await ReportProblem({
+		
+		if (reportFirstName==="" || reportLastName==="" || reportEmail==="" || reportIssue==="") {
+			toast.error("Please fill out all fields");
+			return;
+		}
+		const success = await ReportProblem({
 			firstname: reportFirstName,
 			lastname: reportLastName,
 			email: reportEmail,
 			reportmessage: reportIssue
 		})
 
-		if (res===true){
-			setTimeout( ()=>{
-				handleReportModalClose();
-			}, 1000);
+		
+		if (success===true){
+			toast.success("Report submitted successfully");
+		}else if (success === "tryagain"){
+			toast.error("You can only submit once in 2 hours");
+		}else {
+			toast.error("Some error occured");
 		}
+		setTimeout( ()=>{
+			handleReportModalClose();
+		}, 2000);
+		
 	}
 
 	return (
 
 		<footer className="page-footer font-small blue">
+			<ToastContainer />
 
 			{reportModal && (
 					<div className="reportModal">

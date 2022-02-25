@@ -6,7 +6,7 @@ import DonateBanner from "../components/DonateBanner";
 import HomeCardsContainer from "../components/HomeCardsContainer";
 import EventsBanner from "../components/Events";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <>
       <Navbar />
@@ -14,7 +14,7 @@ const Home = () => {
       <HomeCardsContainer />
       <DonateBanner />
       <EventsBanner />
-      <Footer />
+      <Footer isLoggedIn={props.isLoggedIn}/>
     </>
   );
 };

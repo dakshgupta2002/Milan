@@ -16,7 +16,8 @@ const Report_Log = "https://milan-jwoc.herokuapp.com/user/userreport";
 
 export const LoginUser = async (credentials) => {
   try {
-    const Post = await Axios.post(`${User_Log}`, credentials);
+    const Post = await Axios.post('http://localhost:5000/user/login', credentials);
+    // `${User_Log}`
     return Post;
   } catch (error) {
     console.log(error);
@@ -80,12 +81,18 @@ export const GetAllClubs = async () => {
 };
 
 export const ReportProblem = async (credentials) => {
+  
   try {
-    const response = await Axios.post(Report_Log, credentials);
+    const response = await Axios.post("http://localhost:5000/user/userreport", credentials);
     // "http://localhost:5000/user/userreport"
-    if (response.data.success === true) {
+    if (response.data.success === true){
       return true;
+    }else if (response.data.message === "tryagain"){
+      return "tryagain";
+    }else{
+      return false;
     }
+
   } catch (error) {
     console.log(error);
     alert("INTERNAL ERROR, PLEASE TRY AGAIN LATER");

@@ -6,7 +6,7 @@ import Pic from "../../assets/pictures/clubs-login.png";
 import { LoginClub } from "../../service/MilanApi";
 
 
-function ClubLogin() {
+function ClubLogin(props) {
 	const Navigate = useNavigate();
 
 	function Anchor(props) {
@@ -44,6 +44,7 @@ function ClubLogin() {
 		Data.then(response => {
 			if (response.data.success === true) {
 				alert("Logged you in!!");
+				props.setIsLoggedIn(true);
 				Navigate("/");
 			}
 			else if (response.data.success === false) {

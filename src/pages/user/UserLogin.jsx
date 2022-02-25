@@ -6,7 +6,7 @@ import "../../styles/UserLogin.css";
 import { LoginUser } from "../../service/MilanApi";
 
 
-function UserLogin() {
+function UserLogin(props) {
 	const Navigate = useNavigate();
 
 
@@ -44,6 +44,7 @@ function UserLogin() {
 		Data.then(response => {
 			if (response.data.status === true) {
 				alert("Logged you in!!");
+				props.setIsLoggedIn(true);
 				Navigate("/");
 			}
 			else if (response.data.status === false) {
